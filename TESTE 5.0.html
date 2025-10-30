@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoliciteAqui - Acesso Rápido à Energia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2da800;
+            --primary-dark: #1f9000;
+            --secondary: #0a2d1f;
+            --light: #f9f9f9;
+            --white: #ffffff;
+            --gray: #e0e0e0;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--secondary);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--white);
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        header h1 {
+            font-size: 22px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        main {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            flex: 3;
+            min-width: 300px;
+            margin-right: 30px;
+        }
+        
+        .content h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .content p {
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: #555;
+        }
+        
+        .form-container {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        form input, form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        form input:focus, form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(45, 168, 0, 0.1);
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .whatsapp-btn {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            background-color: #25D366;
+            padding: 14px 20px;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 280px;
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Serviços Compactos */
+        .service-compact {
+            cursor: pointer;
+            margin-bottom: 8px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background-color: #f8f8f8;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .service-compact:hover {
+            background-color: #f0f7ed;
+        }
+        
+        .service-compact.active {
+            background-color: #e8f5e8;
+            border-color: var(--primary);
+        }
+        
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .service-name {
+            font-weight: 500;
+            color: var(--secondary);
+            font-size: 14px;
+        }
+        
+        .service-toggle {
+            color: var(--primary);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .service-details {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--gray);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .service-price {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .service-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            flex: 1;
+        }
+        
+        .add-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .add-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .info-btn {
+            background-color: #f0f0f0;
+            color: var(--secondary);
+        }
+        
+        .info-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .selected-services {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .selected-services h4 {
+            margin-bottom: 15px;
+            color: var(--secondary);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .selected-service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f0f7ed;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .remove-service {
+            color: #ff4d4d;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .service-total {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--gray);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--secondary);
+        }
+        
+        /* Seção de Catálogo - HORIZONTAL */
+        .catalog-section {
+            margin-top: 50px;
+            width: 100%;
+            padding: 30px 0;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .catalog-section h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .catalog-container {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .scrolling-gallery {
+            display: flex;
+            animation: scrollGalleryHorizontal 40s linear infinite;
+            height: 100%;
+        }
+        
+        .scrolling-gallery:hover {
+            animation-play-state: paused;
+        }
+        
+        .project-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            flex-shrink: 0;
+        }
+        
+        .project-image {
+            width: 300px;
+            height: 200px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .project-image:hover {
+            transform: scale(1.05);
+        }
+        
+        @keyframes scrollGalleryHorizontal {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        /* Modal para Zoom das Imagens */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: zoomIn 0.3s ease;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 1001;
+        }
+        
+        .modal-close:hover {
+            color: var(--primary);
+        }
+        
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--white);
+            margin-top: 40px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .no-services {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .content {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+            
+            .catalog-container {
+                height: 200px;
+            }
+            
+            .project-image {
+                width: 250px;
+                height: 160px;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+            
+            .modal-close {
+                top: 10px;
+                right: 15px;
+                font-size: 30px;
+            }
+            
+            @keyframes scrollGalleryHorizontal {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-100%);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">
+                <!-- Substitua pela sua logo -->
+                <img src="IMAGEM/Logotipo.jpg" alt="Logo Joule" style= "width:80px;height:80px;">
+            </div>
+            <h1>SoliciteAqui</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="content">
+            <h2>Seu acesso rápido à Energia</h2>
+            <p>Solicite serviços de energia elétrica de forma prática e rápida. Preencha o formulário abaixo e nossa equipe entrará em contato em até 24h.</p>
+            
+            <div class="form-container">
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="Seu e-mail" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="Seu telefone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem</label>
+                        <textarea id="mensagem" name="mensagem" placeholder="Descreva sua necessidade ou serviço desejado" rows="5"></textarea>
+                    </div>
+                    
+                    <input type="hidden" id="servicos_selecionados" name="servicos_selecionados">
+                    
+                    <button type="button" id="send-whatsapp" class="btn">
+                        <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3><i class="fas fa-bolt"></i> Serviços</h3>
+            
+            <!-- Serviços Compactos -->
+            <div class="service-compact" data-name="2ª Via do Contrato" data-price="200.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">2ª Via do Contrato</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 200,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Alteração de Dados Cadastrais" data-price="150.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Alteração de Dados Cadastrais</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 150,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Alteração de Demanda" data-price="950.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Alteração de Demanda</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 950,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Alteração de Modalidade Tarifária" data-price="550.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Alteração de Modalidade Tarifária</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 550,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Alteração de Titularidade" data-price="120.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Alteração de Titularidade</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 120,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Cronograma de Demanda" data-price="950.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Cronograma de Demanda</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 950,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Formalização do Contrato" data-price="1500.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Formalização do Contrato</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 1.500,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Produtor Rural" data-price="800.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Produtor Rural</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 800,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-compact" data-name="Rescisão Contratual" data-price="1000.00">
+                <div class="service-header" onclick="toggleService(this)">
+                    <div class="service-name">Rescisão Contratual</div>
+                    <div class="service-toggle">
+                        <i class="fas fa-chevron-down"></i> Detalhes
+                    </div>
+                </div>
+                <div class="service-details">
+                    <div class="service-price">R$ 1.000,00</div>
+                    <div class="service-actions">
+                        <button class="action-btn add-btn" onclick="addService(this)">Adicionar</button>
+                        <button class="action-btn info-btn" onclick="showInfo(this)">Mais Info</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="selected-services">
+                <h4><i class="fas fa-shopping-cart"></i> Serviços Selecionados</h4>
+                <div id="selected-services-list">
+                    <div class="no-services">Nenhum serviço selecionado</div>
+                </div>
+                
+                <div class="service-total">
+                    <span>Total:</span>
+                    <span id="total-price">R$ 0,00</span>
+                </div>
+                
+                <button class="btn" onclick="addServicesToMessage()" style="margin-top: 15px; width: 100%;">
+                    <i class="fas fa-comment"></i> Inserir no Formulário
+                </button>
+            </div>
+        </div>
+        
+        <!-- Seção de Catálogo de Projetos - HORIZONTAL -->
+        <div class="catalog-section">
+            <h3><i class="fas fa-images"></i> Nossos Projetos</h3>
+            <div class="catalog-container">
+                <div class="scrolling-gallery">
+                    <!-- Projeto 1 -->
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 1.png" alt="Projeto 1" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <!-- Projeto 2 -->
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 2.png" alt="Projeto 2" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <!-- Projeto 3 -->
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 3.png" alt="Projeto 3" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <!-- Projeto 4 -->
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 4.png" alt="Projeto 4" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <!-- Projeto 5 -->
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 5.png" alt="Projeto 5" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <!-- Projeto 6 -->
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 6.png" alt="Projeto 6" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <!-- Duplicar as imagens para criar um loop contínuo -->
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 1.png" alt="Projeto 1" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 2.png" alt="Projeto 2" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 3.png" alt="Projeto 3" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 4.png" alt="Projeto 4" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 5.png" alt="Projeto 5" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                    <div class="project-item">
+                        <img src="IMAGEM/Projeto 6.png" alt="Projeto 6" class="project-image" onclick="openImageModal(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para Zoom das Imagens -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <span class="modal-close" onclick="closeImageModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <footer>
+        &copy; 2025 SoliciteAqui. Todos os direitos reservados.
+    </footer>
+
+    <script>
+        let selectedServices = [];
+        let activeService = null;
+        
+        // Alternar serviço expandido/recolhido
+        function toggleService(element) {
+            const serviceElement = element.closest('.service-compact');
+            const detailsElement = serviceElement.querySelector('.service-details');
+            const toggleIcon = serviceElement.querySelector('.service-toggle i');
+            
+            // Fechar serviço anterior se houver
+            if (activeService && activeService !== serviceElement) {
+                const prevDetails = activeService.querySelector('.service-details');
+                const prevIcon = activeService.querySelector('.service-toggle i');
+                prevDetails.style.display = 'none';
+                prevIcon.className = 'fas fa-chevron-down';
+                activeService.classList.remove('active');
+            }
+            
+            // Alternar estado atual
+            if (detailsElement.style.display === 'block') {
+                detailsElement.style.display = 'none';
+                toggleIcon.className = 'fas fa-chevron-down';
+                serviceElement.classList.remove('active');
+                activeService = null;
+            } else {
+                detailsElement.style.display = 'block';
+                toggleIcon.className = 'fas fa-chevron-up';
+                serviceElement.classList.add('active');
+                activeService = serviceElement;
+            }
+        }
+        
+        // Adicionar serviço à lista
+        function addService(button) {
+            const serviceElement = button.closest('.service-compact');
+            const serviceName = serviceElement.dataset.name;
+            const servicePrice = parseFloat(serviceElement.dataset.price);
+            
+            // Verificar se o serviço já foi adicionado
+            if (selectedServices.some(service => service.name === serviceName)) {
+                alert('Este serviço já foi adicionado!');
+                return;
+            }
+            
+            // Adicionar à lista
+            selectedServices.push({
+                name: serviceName,
+                price: servicePrice
+            });
+            
+            // Atualizar a lista visual
+            updateSelectedServicesList();
+            
+            // Feedback visual
+            button.textContent = '✓ Adicionado';
+            button.style.backgroundColor = '#4CAF50';
+            setTimeout(() => {
+                button.textContent = 'Adicionar';
+                button.style.backgroundColor = '';
+            }, 1500);
+        }
+        
+        // Remover serviço da lista
+        function removeService(serviceName) {
+            selectedServices = selectedServices.filter(service => service.name !== serviceName);
+            
+            // Atualizar a lista visual
+            updateSelectedServicesList();
+        }
+        
+        // Atualizar a lista de serviços selecionados
+        function updateSelectedServicesList() {
+            const listContainer = document.getElementById('selected-services-list');
+            const totalElement = document.getElementById('total-price');
+            
+            // Calcular total
+            const total = selectedServices.reduce((sum, service) => sum + service.price, 0);
+            totalElement.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            
+            // Limpar lista
+            listContainer.innerHTML = '';
+            
+            if (selectedServices.length === 0) {
+                listContainer.innerHTML = '<div class="no-services">Nenhum serviço selecionado</div>';
+                return;
+            }
+            
+            // Adicionar cada serviço à lista
+            selectedServices.forEach(service => {
+                const serviceItem = document.createElement('div');
+                serviceItem.className = 'selected-service-item';
+                serviceItem.innerHTML = `
+                    <div>${service.name}</div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span>R$ ${service.price.toFixed(2).replace('.', ',')}</span>
+                        <i class="fas fa-times remove-service" onclick="removeService('${service.name}')"></i>
+                    </div>
+                `;
+                listContainer.appendChild(serviceItem);
+            });
+        }
+        
+        // Adicionar serviços selecionados à mensagem
+        function addServicesToMessage() {
+            if (selectedServices.length === 0) {
+                alert('Selecione pelo menos um serviço antes de adicionar à mensagem.');
+                return;
+            }
+            
+            const messageField = document.getElementById('mensagem');
+            let servicesText = "Serviços solicitados:\n";
+            
+            selectedServices.forEach(service => {
+                servicesText += `• ${service.name} - R$ ${service.price.toFixed(2).replace('.', ',')}\n`;
+            });
+            
+            servicesText += "\n";
+            
+            // Se já existe conteúdo, adicionamos os serviços no início
+            if (messageField.value.trim() !== '') {
+                messageField.value = servicesText + messageField.value;
+            } else {
+                messageField.value = servicesText;
+            }
+            
+            // Rolar até o campo de mensagem
+            messageField.scrollIntoView({ behavior: 'smooth' });
+            messageField.focus();
+            
+            // Atualizar campo oculto com os serviços selecionados
+            document.getElementById('servicos_selecionados').value = 
+                selectedServices.map(service => service.name).join(', ');
+        }
+        
+        // Mostrar informações do serviço
+        function showInfo(button) {
+            const serviceElement = button.closest('.service-compact');
+            const serviceName = serviceElement.dataset.name;
+            const servicePrice = serviceElement.dataset.price;
+            
+            alert(`Serviço: ${serviceName}\nPreço: R$ ${servicePrice.replace('.', ',')}\n\nDescrição completa do serviço será fornecida pela nossa equipe.`);
+        }
+        
+        // Enviar mensagem por WhatsApp
+        document.getElementById('send-whatsapp').addEventListener('click', function() {
+            // Coletar dados do formulário
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+            const mensagem = document.getElementById('mensagem').value;
+            const servicos = document.getElementById('servicos_selecionados').value;
+            
+            // Validar campos obrigatórios
+            if (!nome || !telefone) {
+                alert('Por favor, preencha pelo menos o nome e telefone para enviar a mensagem.');
+                return;
+            }
+            
+            // Preparar mensagem para WhatsApp
+            let whatsappMessage = `Olá, gostaria de solicitar um serviço!\n\n`;
+            whatsappMessage += `*Nome:* ${nome}\n`;
+            whatsappMessage += `*Telefone:* ${telefone}\n`;
+            
+            if (email) {
+                whatsappMessage += `*E-mail:* ${email}\n`;
+            }
+            
+            if (servicos) {
+                whatsappMessage += `*Serviços:* ${servicos}\n`;
+            }
+            
+            if (mensagem) {
+                whatsappMessage += `*Mensagem:* ${mensagem}\n`;
+            }
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            
+            // Número de WhatsApp da empresa
+            const whatsappNumber = '5581995212354';
+            
+            // Abrir WhatsApp com a mensagem
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+        });
+        
+        // Funções para o Modal de Imagens
+        function openImageModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'flex';
+            modalImg.src = img.src;
+            
+            // Pausar a animação do carrossel
+            const scrollingGallery = document.querySelector('.scrolling-gallery');
+            scrollingGallery.style.animationPlayState = 'paused';
+        }
+        
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            
+            // Retomar a animação do carrossel
+            const scrollingGallery = document.querySelector('.scrolling-gallery');
+            scrollingGallery.style.animationPlayState = 'running';
+        }
+        
+        // Fechar modal ao pressionar ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+    </script>
+</body>
+</html>
